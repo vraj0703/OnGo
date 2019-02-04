@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="value"
+            type="String" />
+
+        <variable
+            name="viewModel"
+            type="raj.on_go.view_model.MainViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <raj.on_go.view.SelectableImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:onClick="@{(v) -> viewModel.evaluateDonation(v)}"
+                android:tag="16"
+                app:image="@drawable/ic_cigarette"
+                app:text="\u20B916" />
+
+            <raj.on_go.view.SelectableImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:onClick="@{(v) -> viewModel.evaluateDonation(v)}"
+                android:tag="72"
+                app:image="@drawable/ic_hamburguer"
+                app:text="\u20B972" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <raj.on_go.view.SelectableImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:onClick="@{(v) -> viewModel.evaluateDonation(v)}"
+                android:tag="124"
+                app:image="@drawable/ic_beer_can"
+                app:text="\u20B9124" />
+
+            <raj.on_go.view.SelectableImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:onClick="@{(v) -> viewModel.evaluateDonation(v)}"
+                android:tag="208"
+                app:image="@drawable/ic_beer_pint"
+                app:text="\u20B9208" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:padding="16dp"
+                android:text="Total:"
+                android:textSize="24sp" />
+
+            <TextView
+                android:fontFamily="sans-serif-smallcaps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="@{`₹ `+value}"
+                android:textSize="24sp" />
+        </RelativeLayout>
+    </LinearLayout>
+</layout>

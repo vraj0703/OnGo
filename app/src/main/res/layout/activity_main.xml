@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="raj.on_go.BuildConfig" />
+
+        <import type="raj.on_go.utils.Screen" />
+
+        <variable
+            name="screen"
+            type="raj.on_go.utils.Screen" />
+
+        <variable
+            name="viewModel"
+            type="raj.on_go.view_model.MainViewModel" />
+
+    </data>
+
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/parentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/appBackground"
+        tools:context=".MainActivity">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="16dp"
+                    android:src="@drawable/ic_logo"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="serif-monospace"
+                    android:text="@string/app_name"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="48sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+                <EditText
+                    android:id="@+id/search"
+                    style="style/optionText"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:autoSizeMaxTextSize="32sp"
+                    android:autoSizeMinTextSize="12sp"
+                    android:autoSizeTextType="uniform"
+                    android:backgroundTint="@android:color/transparent"
+                    android:drawableStart="@drawable/ic_search"
+                    android:drawablePadding="10dp"
+                    android:ems="1"
+                    android:fontFamily="serif-monospace"
+                    android:hint="@string/search"
+                    android:imeOptions="actionSearch"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:lines="1"
+                    android:textSize="32sp"
+                    android:visibility="@{screen == Screen.Home || screen == Screen.Search ? View.VISIBLE : View.GONE}" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:background="@drawable/line_color"
+                    android:visibility="@{screen == Screen.Home || screen == Screen.Search ? View.VISIBLE : View.GONE}" />
+
+
+                <TextView
+                    style="style/optionText"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:drawableStart="@drawable/ic_histroy"
+                    android:drawablePadding="10dp"
+                    android:fontFamily="serif-monospace"
+                    android:gravity="center_vertical"
+                    android:onClick="@{() ->  viewModel.changeScreen(Screen.History) }"
+                    android:text="@string/history"
+                    android:textSize="32sp"
+                    android:visibility="@{screen == Screen.Home || screen == Screen.History ? View.VISIBLE : View.GONE}" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:background="@drawable/line_color"
+                    android:visibility="@{screen == Screen.Home || screen == Screen.History ? View.VISIBLE : View.GONE}" />
+
+                <TextView
+                    style="style/optionText"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:drawableStart="@drawable/ic_feedback"
+                    android:drawablePadding="10dp"
+                    android:fontFamily="serif-monospace"
+                    android:gravity="center_vertical"
+                    android:onClick="@{() ->  viewModel.changeScreen(Screen.Feedback) }"
+                    android:text="@string/feedback"
+                    android:textSize="32sp"
+                    android:visibility="@{screen == Screen.Home || screen == Screen.Feedback ? View.VISIBLE : View.GONE}" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:background="@drawable/line_color"
+                    android:visibility="@{screen == Screen.Home || screen == Screen.Feedback ? View.VISIBLE : View.GONE}" />
+
+                <TextView
+                    style="style/optionText"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:drawableStart="@drawable/ic_beer"
+                    android:drawablePadding="10dp"
+                    android:fontFamily="serif-monospace"
+                    android:gravity="center_vertical"
+                    android:onClick="@{() ->  viewModel.changeScreen(Screen.Donate) }"
+                    android:text="@string/donate"
+                    android:textSize="32sp"
+                    android:visibility="@{screen == Screen.Home || screen == Screen.Donate ? View.VISIBLE : View.GONE}" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:background="@drawable/line_color"
+                    android:visibility="@{screen == Screen.Home || screen == Screen.Donate ? View.VISIBLE : View.GONE}" />
+
+                <TextView
+                    style="style/optionText"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:drawableStart="@drawable/ic_rate"
+                    android:drawablePadding="10dp"
+                    android:fontFamily="serif-monospace"
+                    android:gravity="center_vertical"
+                    android:onClick="@{() ->  viewModel.changeScreen(Screen.Rate) }"
+                    android:text="@string/rate"
+                    android:textSize="32sp"
+                    android:visibility="@{screen == Screen.Home || screen == Screen.Rate ? View.VISIBLE : View.GONE}" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="4"
+                    android:orientation="vertical"
+                    android:visibility="@{screen != Screen.Home ? View.VISIBLE : View.GONE}">
+
+                    <FrameLayout
+                        android:id="@+id/container"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:elevation="12dp"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:text="@{`version ` + BuildConfig.VERSION_NAME}"
+                android:textColor="@android:color/background_light"
+                android:textSize="12sp"
+                android:visibility="@{screen == Screen.Home ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="32dp"
+                android:elevation="12dp"
+                android:onClick="fabClicked"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_keyboard"
+                android:visibility="@{screen == Screen.Home || screen == Screen.Search ? View.VISIBLE : View.GONE}"
+                app:fabSize="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/feedbackFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="32dp"
+            android:elevation="12dp"
+            android:onClick="sendFeedback"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_send_feedback"
+            android:visibility="@{screen == Screen.Feedback ? View.VISIBLE : View.GONE}"
+            app:fabSize="normal" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/donateFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="32dp"
+            android:elevation="12dp"
+            android:onClick="@{() -> viewModel.donate()}"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_give"
+            android:visibility="@{screen == Screen.Donate ? View.VISIBLE : View.GONE}"
+            app:fabSize="normal" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/audio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="100dp"
+            android:elevation="12dp"
+            android:onClick="@{() -> viewModel.pronounce()}"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_speaker"
+            android:visibility="@{screen == Screen.Search ? View.VISIBLE : View.GONE}"
+            app:fabSize="normal" />
+
+    </android.support.design.widget.CoordinatorLayout>
+</layout>

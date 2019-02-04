@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="loading"
+            type="boolean" />
+
+        <variable
+            name="word"
+            type="CharSequence" />
+
+        <variable
+            name="meaning"
+            type="CharSequence" />
+
+        <variable
+            name="header"
+            type="CharSequence" />
+
+        <variable
+            name="noAudio"
+            type="boolean" />
+
+        <variable
+            name="notFound"
+            type="boolean" />
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="80dp"
+        android:elevation="16dp"
+        app:cardBackgroundColor="@color/appBackground"
+        app:cardCornerRadius="12.5dp">
+
+        <LinearLayout
+            android:layout_width="280dp"
+            android:layout_height="160dp"
+            android:orientation="horizontal"
+            tools:ignore="DisableBaselineAlignment">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/wordText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autoSizeTextType="uniform"
+                    android:fontFamily="serif-monospace"
+                    android:padding="5dp"
+                    android:text="@{word}"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    tools:ignore="NestedWeights" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:background="@drawable/line" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="sans-serif-smallcaps"
+                    android:gravity="center_vertical"
+                    android:text="@{header}"
+                    android:textColor="@android:color/black"
+                    android:visibility="@{loading || notFound ? View.GONE : View.VISIBLE}" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:paddingBottom="5dp"
+                    android:textColor="@android:color/black"
+                    android:visibility="@{loading || notFound ? View.GONE : View.VISIBLE}"
+                    tools:ignore="NestedWeights" />
+
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:indeterminateDrawable="@drawable/rotate"
+                    android:visibility="@{loading ? View.VISIBLE : View.GONE}" />
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:src="@drawable/ic_not_found"
+                    android:visibility="@{notFound ? View.VISIBLE : View.GONE}"
+                    android:contentDescription="@string/error" />
+
+            </LinearLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/close"
+                    android:layout_width="25dp"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_weight="1"
+                    android:onClick="close"
+                    android:src="@drawable/ic_close"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="NestedWeights"
+                    android:contentDescription="@string/close" />
+
+                <ImageView
+                    android:id="@+id/speaker"
+                    android:layout_width="32dp"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_weight="1.2"
+                    android:onClick="pronounce"
+                    android:soundEffectsEnabled="false"
+                    android:src="@drawable/ic_speaker"
+                    android:visibility="@{loading || noAudio || notFound ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintBottom_toTopOf="@+id/more"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/close"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:ignore="NestedWeights"
+                    android:contentDescription="@string/pronounce" />
+
+                <ImageView
+                    android:id="@+id/more"
+                    android:layout_width="25dp"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_weight="1"
+                    android:onClick="more"
+                    android:rotation="180"
+                    android:src="@drawable/ic_arrow"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:ignore="NestedWeights"
+                    android:contentDescription="@string/expand" />
+            </android.support.constraint.ConstraintLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</layout>
