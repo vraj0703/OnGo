@@ -14,6 +14,11 @@ buildscript {
         mavenCentral()
         jcenter()
         google()
+        maven {
+            url "https://s3-ap-southeast-1.amazonaws.com/godel-release/godel/"
+        }
+        maven { url "https://github.com/syrjs/maven/raw/master"}
+        maven { url "https://github.com/paypal/paypalcheckout-android/raw/nativeSDK"}
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.3.0'

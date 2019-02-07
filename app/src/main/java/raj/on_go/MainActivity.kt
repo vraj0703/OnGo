@@ -7,19 +7,32 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import android.widget.TextView
+/*import com.razorpay.PaymentResultListener*/
 import raj.on_go.databinding.ActivityMainBinding
 import raj.on_go.fragments.FeedbackFragment
 import raj.on_go.utils.KeyboardUtils
 import raj.on_go.utils.Screen
 import raj.on_go.view_model.MainViewModel
 
-class MainActivity : AppCompatActivity() {
+
+class MainActivity : AppCompatActivity()/*, PaymentResultListener*/ {
+    /*override fun onPaymentError(p0: Int, p1: String?) {
+
+    }
+
+    override fun onPaymentSuccess(p0: String?) {
+
+    }*/
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
+    /* private lateinit var paymentsClient: PaymentsClient*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,10 +62,19 @@ class MainActivity : AppCompatActivity() {
             false
         })
 
+        binding.search.addTextChangedListener { }
+
+        viewModel.error.observe(this, Observer { binding.error = it })
+
         val word = intent.getCharSequenceExtra("Word")
         if (word != null) {
             viewModel.word.postValue(word)
         } else showMenu()
+
+        /*  Checkout.preload(applicationContext)
+          paymentsClient = Wallet.getPaymentsClient(this,
+                  Wallet.WalletOptions.Builder().setEnvironment(WalletConstants.ENVIRONMENT_TEST)
+                          .build())*/
     }
 
     override fun onBackPressed() {
@@ -97,11 +119,35 @@ class MainActivity : AppCompatActivity() {
 
     private fun showMenu() {
         viewModel.screen.postValue(Screen.Home)
+        KeyboardUtils.hideKeyboard(binding.search, this)
     }
 
     fun fabClicked(v: View) {
         KeyboardUtils.showKeyboard(binding.search, this)
     }
+
+    fun donate(v: View) {
+        /*val payment = Payment()
+        payment.startPayment(this, paymentsClient)*/
+    }
+
+    private fun EditText.addTextChangedListener(function: () -> Unit) {
+        this.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {
+                if (p0.isEmpty()) {
+                    showMenu()
+                }
+            }
+
+            override fun afterTextChanged(editable: Editable?) {
+
+            }
+        })
+    }
+
 }
 
 

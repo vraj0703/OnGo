@@ -1,6 +1,8 @@
 package raj.on_go.utils
 
+import android.support.annotation.DrawableRes
 import android.support.v4.app.Fragment
+import raj.on_go.R
 import raj.on_go.fragments.*
 
 enum class Screen(val value: Int, val fragment: Fragment?, val tag: String) {
@@ -12,10 +14,11 @@ enum class Screen(val value: Int, val fragment: Fragment?, val tag: String) {
     Rate(5, RateFragment.newInstance(), "rate")
 }
 
-enum class UiError(val value: Boolean) {
+enum class UiError(val value: Boolean, @DrawableRes val image: Int) {
 
-    NoError(false),
-    NoInternet(true),
-    NoData(true),
-    ApiError(true)
+    NoError(false, 0),
+    NoInternet(true, R.drawable.ic_no_network),
+    NoData(true, R.drawable.ic_no_data),
+    ApiError(true, R.drawable.ic_not_found),
+    WrongInput(true, R.drawable.ic_wrong_input)
 }

@@ -18,6 +18,7 @@ import raj.on_go.src.network.network_model.oxford.Converters
 import raj.on_go.src.network.network_model.oxford.Meaning
 import raj.on_go.src.network.network_model.oxford.models.Pronunciation
 import raj.on_go.utils.AudioPlayer
+import raj.on_go.utils.NetworkUtils
 import raj.on_go.utils.Screen
 import raj.on_go.utils.UiError
 import raj.on_go.view.SelectableImageView
@@ -68,29 +69,34 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun changeWord(value: CharSequence) {
-        word.postValue(value)
-        meaning.postValue(null)
-        audioFile.postValue(null)
-    }
-
     fun searchWord(word: CharSequence?) = scope.launch(Dispatchers.IO) {
         if (eligible(word)) {
             val savedWord = repository.find(word.toString())
             val result = savedWord.let {
-                if (it != null) Converters.fromString(it.meaning)
-                else ApiHelper().search(word)
+                if (it != null ) Converters.fromString(it.meaning)
+                else (if (NetworkUtils.connected(getApplication())) ApiHelper().search(word) else {
+                    error.postValue(UiError.NoInternet)
+                    null
+                })
             }
             if (!checkError(result)) {
+                error.postValue(UiError.NoError)
                 insert(word.toString(), Converters.toString(result))
-                meaning.postValue(result)
-                if (result?.lexicalEntries != null)
-                    audioFile.postValue(getAudioFile(result.lexicalEntries!![0].pronunciations))
-                else
-                    audioFile.postValue("")
+            } else if (error.value!!.value) {
+                error.postValue(UiError.NoData)
+            } else {
+                error.postValue(UiError.ApiError)
             }
-            loading.postValue(false)
+            meaning.postValue(result)
+            if (result?.lexicalEntries != null)
+                audioFile.postValue(getAudioFile(result.lexicalEntries!![0].pronunciations))
+            else
+                audioFile.postValue("")
+        } else {
+            error.postValue(UiError.WrongInput)
+            meaning.postValue(null)
         }
+        loading.postValue(false)
     }
 
     fun getList(result: Meaning?): List<ListItem> {
@@ -116,8 +122,29 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return list
     }
 
+    fun getSerachUiListItem(result: Meaning?): List<ListItem> {
+        val list: MutableList<ListItem> = ArrayList()
+        if (result != null) {
+            for (lexicalEntry in result.lexicalEntries!!) {
+                val lexicalCategory = LexicalCategory(lexicalEntry.lexicalCategory)
+                list.add(lexicalCategory)
+                val entry = lexicalEntry.entries!![0]
+                for (senses in entry.senses!!) {
+                    if (senses.definitions != null && senses.definitions?.size!! > 0)
+                        list.add(Defination(senses.definitions.toString().replace("[", "").replace("]", "")))
+                    if (senses.examples != null && senses.examples?.size!! > 0)
+                        list.add(Example(senses.examples.toString().replace("[", "").replace("]", "")))
+                }
+                if (entry.etymologies != null)
+                    list.add(Etymologies(entry.etymologies.toString()))
+            }
+        }
+        return list
+    }
+
+
     private fun checkError(result: Meaning?): Boolean {
-        return false
+        return result == null
     }
 
     private fun getAudioFile(pronunciations: List<Pronunciation>?): String {
@@ -130,6 +157,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun eligible(word: CharSequence?): Boolean {
+        if (word?.contains(" ")!!)
+            return false
         return true
     }
 
@@ -155,7 +184,5 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         donation.postValue(value)
     }
 
-    fun donate() {
 
-    }
 }

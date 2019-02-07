@@ -7,7 +7,7 @@ import com.google.gson.reflect.TypeToken
 
 object Converters {
     @TypeConverter
-    fun fromString(value: String?): Meaning {
+    fun fromString(value: String): Meaning {
         val listType = object : TypeToken<Meaning>() {
 
         }.type

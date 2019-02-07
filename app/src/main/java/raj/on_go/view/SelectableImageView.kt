@@ -21,13 +21,12 @@ class SelectableImageView(context: Context?, attrs: AttributeSet?, defStyleAttr:
                 R.styleable.SelectableImageView,
                 0, 0).apply {
 
+            this!!
             try {
-                this!!
                 binding.text = getText(R.styleable.SelectableImageView_text)
                 binding.selected = getBoolean(R.styleable.SelectableImageView_selected, false)
                 binding.image = (getResourceId(R.styleable.SelectableImageView_image, R.drawable.ic_beer)).let { resources.getDrawable(it, context?.theme) }
             } finally {
-                this!!
                 recycle()
             }
         }

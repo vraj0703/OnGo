@@ -19,4 +19,5 @@ class Repository(private val dao: Dao) {
     fun find(word: String): Word? {
         return dao.word(word)
     }
+
 }

@@ -39,6 +39,7 @@ class SearchFragment : Fragment() {
 //        inflateRecyclerView()
         viewModel.meaning.observe(activity!!, Observer { inflateRecyclerView() })
         viewModel.loading.observe(activity!!, Observer { binding.loading = it })
+        viewModel.error.observe(activity!!, Observer { binding.error = it })
     }
 
     private fun inflateRecyclerView() {
@@ -47,6 +48,11 @@ class SearchFragment : Fragment() {
     }
 
     private fun getList(): List<ListItem> {
-        return viewModel.getList(viewModel.meaning.value!!)
+        return viewModel.getSerachUiListItem(viewModel.meaning.value)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.list.smoothScrollToPosition(0)
     }
 }

@@ -32,4 +32,9 @@
         <attr name="selected" format="boolean" />
         <attr name="image" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="ErrorView">
+        <attr name="error_text" format="string" />
+        <attr name="error_image" format="reference" />
+    </declare-styleable>
 </resources>

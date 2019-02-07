@@ -16,6 +16,10 @@
             type="raj.on_go.utils.Screen" />
 
         <variable
+            name="error"
+            type="raj.on_go.utils.UiError" />
+
+        <variable
             name="viewModel"
             type="raj.on_go.view_model.MainViewModel" />
 
@@ -213,23 +217,22 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_marginEnd="32dp"
-                android:layout_marginBottom="32dp"
-                android:elevation="12dp"
-                android:onClick="fabClicked"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_keyboard"
-                android:visibility="@{screen == Screen.Home || screen == Screen.Search ? View.VISIBLE : View.GONE}"
-                app:fabSize="normal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
         </android.support.constraint.ConstraintLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="32dp"
+            android:elevation="12dp"
+            android:onClick="fabClicked"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_keyboard"
+            android:visibility="@{screen == Screen.Home || screen == Screen.Search ? View.VISIBLE : View.GONE}"
+            app:fabSize="normal"
+            app:layout_behavior="raj.on_go.utils.FabScrollingBehaviours" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/feedbackFab"
@@ -253,11 +256,12 @@
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="32dp"
             android:elevation="12dp"
-            android:onClick="@{() -> viewModel.donate()}"
+            android:onClick="donate"
             android:scaleType="fitXY"
             android:src="@drawable/ic_give"
             android:visibility="@{screen == Screen.Donate ? View.VISIBLE : View.GONE}"
-            app:fabSize="normal" />
+            app:fabSize="normal"
+            app:layout_behavior="raj.on_go.utils.FabScrollingBehaviours" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/audio"
@@ -270,8 +274,9 @@
             android:onClick="@{() -> viewModel.pronounce()}"
             android:scaleType="fitXY"
             android:src="@drawable/ic_speaker"
-            android:visibility="@{screen == Screen.Search ? View.VISIBLE : View.GONE}"
-            app:fabSize="normal" />
+            android:visibility="@{screen == Screen.Search &amp;&amp; !error.value ? View.VISIBLE : View.GONE}"
+            app:fabSize="normal"
+            app:layout_behavior="raj.on_go.utils.FabScrollingBehaviours" />
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>
